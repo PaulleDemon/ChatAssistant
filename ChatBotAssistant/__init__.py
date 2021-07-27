@@ -1,0 +1,1 @@
+from ChatBotAssistant.assistant import ChatAssistant
