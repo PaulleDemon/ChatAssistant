@@ -57,11 +57,11 @@ class MessageWidget(QtWidgets.QWidget):
         grid_layout.addWidget(self.send_btn, 3, 3, 1, 1)
 
     def sendMessage(self, trainingmsg: str = ""):
-
+        text = ""
         if trainingmsg:
             text = trainingmsg
 
-        else:
+        elif self.text_box.text():
             text = self.text_box.text()
             time = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
             msg = MessageLabel("You", time, text)
@@ -69,7 +69,9 @@ class MessageWidget(QtWidgets.QWidget):
             self.v_box.addWidget(msg, alignment=QtCore.Qt.AlignRight)
             self.text_box.clear()
 
-        self.chat_bot.respond(text, bool(trainingmsg))
+        if text:
+            self.chat_bot.respond(text, bool(trainingmsg))
+
 
     def receiveMessage(self, msg: str):
 
@@ -147,13 +149,12 @@ class MessageWidget(QtWidgets.QWidget):
 
     def closeEvent(self, event: QtGui.QCloseEvent) -> None:
 
-        self.chat_bot.closeChat()
+        # self.chat_bot.closeChat()
 
         if self.listening:
             # self.speech.quit()
             self.speech.terminate()
             self.speech.wait()
-
 
         super(MessageWidget, self).closeEvent(event)
 
